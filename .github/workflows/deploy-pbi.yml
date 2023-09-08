@@ -10,6 +10,20 @@ env:
   ENVIRONMENT: PROD
 
 jobs:
+  updateTimestamp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: timestampe update
+        run: |
+          CURRENT_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%S.%N%:z")
+          sed -i 's/%CREATED_TIMESTAMP%/'"$CURRENT_TIMESTAMP"'/' config.json
+      - name: commit and push
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git commit -am "Update created timestamp"
+          git push
   Deployment:
     runs-on: ubuntu-latest
     environment: PROD
