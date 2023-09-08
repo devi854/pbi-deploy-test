@@ -17,7 +17,7 @@ jobs:
       - name: timestampe update
         run: |
           CURRENT_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%S.%N%:z")
-          sed -i 's/%CREATED_TIMESTAMP%/'"$CURRENT_TIMESTAMP"'/' config.json
+          sed -i 's/%CREATED_TIMESTAMP%/'"$CURRENT_TIMESTAMP"'/' .pbixproj.json
       - name: commit and push
         run: |
           git config user.name "${{ github.actor }}"
