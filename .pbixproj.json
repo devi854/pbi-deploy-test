@@ -1,6 +1,6 @@
 {
     "version": "0.11",
-    "created": ""%CREATED_TIMESTAMP%"",
+    "created": "%CREATED_TIMESTAMP%",
     "deployments": {
       "Files": {
         "mode": "Report",
@@ -26,4 +26,4 @@
         }
       }
     }
-  }"
+  }
