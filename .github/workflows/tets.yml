@@ -1,0 +1,36 @@
+name: Power BI Deployment
+
+on:
+  push:
+    branches:
+      - main  # Modify this to match your branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use an appropriate runner for your script
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Power BI CLI
+        run: |
+          npm install -g powerbi-cli
+          pbicli login --service-principal --client-id ${{ secrets.PBI_CLIENT_ID }} --client-secret ${{ secrets.PBI_CLIENT_SECRET }} --tenant-id ${{ secrets.PBI_TENANT_ID }}
+
+      - name: Update Dataset Parameters
+        run: |
+          pbicli dataset update \
+            --workspace-id <your-workspace-id> \
+            --dataset-id <YourDatasetID> \
+            --parameters-file path/to/dataset-parameters.json
+
+      - name: Deploy PBIX
+        run: |
+          pbicli import pbix \
+            --workspace <your-workspace-id> \
+            --file <path-to-your.pbix> \
+            --name <dataset-name> \
+            --conflict CreateOrOverwrite
+
+      # You can add additional steps here for deployment, such as publishing the .pbix file to Power BI Service.
